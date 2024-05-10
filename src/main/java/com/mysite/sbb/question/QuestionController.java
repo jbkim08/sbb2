@@ -1,5 +1,6 @@
 package com.mysite.sbb.question;
 
+import com.mysite.sbb.answer.AnswerForm;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,7 +26,8 @@ public class QuestionController {
 
     //url 주소에 /{변수} => PathVariable 주소변수
     @RequestMapping("/detail/{id}")
-    public String detail(Model model, @PathVariable("id") int id){
+    public String detail(Model model, @PathVariable("id") int id,
+                         AnswerForm answerForm){
         Question q = qService.getQuestionById(id);
         model.addAttribute("question", q);
         return "question_detail";

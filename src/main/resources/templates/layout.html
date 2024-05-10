@@ -11,5 +11,9 @@
 </head>
 <body>
 <!-- th:fragment="이름" 으로 공통 태그부분 작성 -->
+<!-- 모든 에러메세지 표시  -->
+<div th:fragment="formErrors" class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+    <div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+</div>
 </body>
 </html>
