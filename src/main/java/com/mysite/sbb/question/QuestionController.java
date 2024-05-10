@@ -1,10 +1,11 @@
 package com.mysite.sbb.question;
 
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,5 +29,21 @@ public class QuestionController {
         Question q = qService.getQuestionById(id);
         model.addAttribute("question", q);
         return "question_detail";
+    }
+
+    @GetMapping("/create")
+    public String create(QuestionForm questionForm){
+        return "question_form";
+    }
+
+    @PostMapping("/create")
+    public String create(@Valid QuestionForm questionForm,
+                         BindingResult result){
+        if(result.hasErrors()){
+            return "question_form"; //되돌아감
+        }
+        //질문 저장하기
+        qService.createQuestion(questionForm.getSubject(), questionForm.getContent());
+        return "redirect:/question/list";
     }
 }
