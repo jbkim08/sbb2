@@ -3,24 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <link rel="stylesheet" th:href="@{/bootstrap.min.css}">
 </head>
 <body>
-    <h1>질문 리스트 페이지</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>제목</th>
-                <th>작성일시</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="q : ${qList}">
-                <td>
-                    <a th:href="@{/question/detail/__${q.id}__}" th:text="${q.subject}"></a>
-                </td>
-                <td th:text="${q.createDate}"></td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container my-3">
+        <h1>질문 리스트 페이지</h1>
+        <table class="table">
+            <thead class="table-dark">
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성일시</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="q, loop : ${qList}">
+                    <td th:text="${loop.count}"></td>
+                    <td>
+                        <a th:href="@{/question/detail/__${q.id}__}" th:text="${q.subject}"></a>
+                    </td>
+                    <td th:text="${#temporals.format(q.createDate,'yyyy-MM-dd HH:mm')}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>
