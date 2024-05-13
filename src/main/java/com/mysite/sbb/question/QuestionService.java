@@ -1,6 +1,10 @@
 package com.mysite.sbb.question;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -34,4 +38,12 @@ public class QuestionService {
         q.setCreateDate(LocalDateTime.now());
         qRepo.save(q);
     }
+
+    //페이지에 맞는 질문들을 가져옴 (사이즈 10개)
+    public Page<Question> getList(int page) {
+        Pageable pageable = PageRequest.of(page, 10, Sort.by("createDate").descending()); //페이지번호, 한페이지10개
+
+        return qRepo.findAll(pageable);
+    }
+
 }

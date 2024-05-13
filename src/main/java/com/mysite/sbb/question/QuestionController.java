@@ -3,6 +3,7 @@ package com.mysite.sbb.question;
 import com.mysite.sbb.answer.AnswerForm;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,9 +19,9 @@ public class QuestionController {
     private QuestionService qService;
 
     @RequestMapping("/list")
-    public String questionList(Model model){
-        List<Question> qList = qService.getAllQuestions();
-        model.addAttribute("qList", qList);
+    public String questionList(Model model, @RequestParam(value = "page", defaultValue = "0") int page){
+        Page<Question> paging = qService.getList(page);
+        model.addAttribute("paging", paging);
         return "question_list";
     }
 
