@@ -2,6 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout::head"></head>
 <body>
+<!-- 메뉴 바   -->
+<nav th:replace="layout::nav"></nav>
+
 <div class="container">
     <!-- 질문 -->
     <h2 class="border-bottom py-2" th:text="${question.subject}"></h2>
