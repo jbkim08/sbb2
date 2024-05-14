@@ -32,7 +32,7 @@ class SbbApplicationTests {
         for (int i = 1; i <= 300; i++) {
             String subject = String.format("테스트 데이터입니다:[%03d]", i);
             String content = "내용무";
-            qService.createQuestion(subject,content);
+            qService.createQuestion(subject,content, null);
         }
 //        Question q1 = new Question();
 //        q1.setSubject("sbb가 무엇인가요?");

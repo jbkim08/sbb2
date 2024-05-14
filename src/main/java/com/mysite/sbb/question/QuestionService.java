@@ -1,5 +1,6 @@
 package com.mysite.sbb.question;
 
+import com.mysite.sbb.user.SiteUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -30,12 +31,13 @@ public class QuestionService {
             throw new DataNotFoundException("question not found");
         }
     }
-
-    public void createQuestion(String subject, String content) {
+    //질문을 저장하기
+    public void createQuestion(String subject, String content, SiteUser user) {
         Question q = new Question();
         q.setSubject(subject);
         q.setContent(content);
         q.setCreateDate(LocalDateTime.now());
+        q.setAuthor(user); //글쓴이 추가
         qRepo.save(q);
     }
 

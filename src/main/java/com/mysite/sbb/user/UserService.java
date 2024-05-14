@@ -1,9 +1,12 @@
 package com.mysite.sbb.user;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @Service
 public class UserService {
@@ -25,5 +28,15 @@ public class UserService {
 
         userRepo.save(siteUser);
         return siteUser; // 저장한 유저객체를 리턴
+    }
+
+    //사용자명으로 유저객체를 리턴
+    public SiteUser getUser(String username) {
+        Optional<SiteUser> _siteUser = userRepo.findByUsername(username);
+        if (_siteUser.isPresent()) {
+            return _siteUser.get();
+        } else {
+            throw new UsernameNotFoundException("User not found");
+        }
     }
 }
