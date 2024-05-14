@@ -56,4 +56,9 @@ public class QuestionService {
         qRepo.save(question);
     }
 
+    // 질문 삭제하기
+    public void delete(Question question) {
+        qRepo.delete(question);
+    }
+
 }
