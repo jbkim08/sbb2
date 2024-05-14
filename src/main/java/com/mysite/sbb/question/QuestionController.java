@@ -90,4 +90,17 @@ public class QuestionController {
         qService.modify(question, questionForm.getSubject(), questionForm.getContent());
         return String.format("redirect:/question/detail/%d", id);
     }
+
+    //삭제하기
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/delete/{id}")
+    public String delete(@PathVariable("id") int id, Principal principal){
+        Question question = qService.getQuestionById(id);
+        if(!question.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "삭제권한이 없습니다.");
+        }
+        qService.delete(question);
+        return "redirect:/";
+    }
+
 }
