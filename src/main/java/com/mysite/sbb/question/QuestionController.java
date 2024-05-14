@@ -6,11 +6,13 @@ import com.mysite.sbb.user.UserService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.security.Principal;
 import java.util.List;
@@ -58,5 +60,34 @@ public class QuestionController {
         //질문 저장하기
         qService.createQuestion(questionForm.getSubject(), questionForm.getContent(), siteUser);
         return "redirect:/question/list";
+    }
+
+    //수정하기 페이지 보이기
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/modify/{id}")
+    public String modify(@PathVariable("id") int id, QuestionForm questionForm,
+                         Principal principal){
+        Question question = qService.getQuestionById(id);
+        if(!question.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        questionForm.setSubject(question.getSubject());
+        questionForm.setContent(question.getContent());
+        return "question_form";
+    }
+
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/modify/{id}")
+    public String modify(@Valid QuestionForm questionForm, BindingResult result,
+                         Principal principal, @PathVariable("id") int id){
+        if(result.hasErrors()){
+            return "question_form"; //되돌리기
+        }
+        Question question = qService.getQuestionById(id);
+        if(!question.getAuthor().getUsername().equals(principal.getName())){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정권한이 없습니다.");
+        }
+        qService.modify(question, questionForm.getSubject(), questionForm.getContent());
+        return String.format("redirect:/question/detail/%d", id);
     }
 }

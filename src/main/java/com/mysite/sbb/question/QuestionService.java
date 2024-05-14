@@ -48,4 +48,12 @@ public class QuestionService {
         return qRepo.findAll(pageable);
     }
 
+    // 질문 수정하기
+    public void modify(Question question, String subject, String content) {
+        question.setSubject(subject);
+        question.setContent(content);
+        question.setModifyDate(LocalDateTime.now());
+        qRepo.save(question);
+    }
+
 }
