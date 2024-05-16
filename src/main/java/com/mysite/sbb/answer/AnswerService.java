@@ -46,4 +46,10 @@ public class AnswerService {
     public void delete(Answer answer) {
         aRepo.delete(answer);
     }
+
+    //추천인을 저장하기(업데이트) 답변에 추천인만 업데이트
+    public void vote(Answer answer, SiteUser siteUser) {
+        answer.getVoter().add(siteUser); //추천인이 답변에 추가됨
+        aRepo.save(answer);      //DB 에 답변을 업데이트함
+    }
 }

@@ -26,13 +26,20 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <!-- 왼쪽 메뉴 -->
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
                     <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
                     <a class="nav-link" sec:authorize="isAuthenticated()"  th:href="@{/user/logout}">로그아웃</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" th:href="@{/user/signup}">회원가입</a>
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+                </li>
+            </ul>
+            <!-- 오른쪽 메뉴 -->
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 me-5">
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                   🌝HI! <span sec:authentication="name"></span>
                 </li>
             </ul>
         </div>

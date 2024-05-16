@@ -61,4 +61,10 @@ public class QuestionService {
         qRepo.delete(question);
     }
 
+    //추천인을 저장하기(업데이트) 질문에 추천인만 업데이트
+    public void vote(Question question, SiteUser siteUser) {
+        question.getVoter().add(siteUser); //추천인이 질문에 추가됨
+        qRepo.save(question);      //DB 에 질문을 업데이트함
+    }
+
 }

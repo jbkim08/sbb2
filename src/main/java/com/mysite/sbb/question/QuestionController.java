@@ -103,4 +103,14 @@ public class QuestionController {
         return "redirect:/";
     }
 
+    //추천인 처리
+    @PreAuthorize("isAuthenticated()")
+    @GetMapping("/vote/{id}")
+    public String questionVote(@PathVariable("id") int id, Principal principal){
+        Question question = qService.getQuestionById(id);
+        SiteUser siteUser = uService.getUser(principal.getName());
+        qService.vote(question, siteUser);
+        return String.format("redirect:/question/detail/%d", id);
+    }
+
 }

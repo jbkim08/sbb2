@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -30,4 +31,7 @@ public class Answer {
     private SiteUser author;  //한명이 여러개의 답변가능
 
     private LocalDateTime modifyDate; //수정일자
+
+    @ManyToMany
+    private Set<SiteUser> voter;   //답변과 추천인 관계는 다:다
 }
